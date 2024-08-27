@@ -63,18 +63,41 @@ function Faq({ handleToggle, isOpen, faqs, active, setOpen }) {
         </div>
       </h1>
       <div>
-        {faqs.map(
-          (faq, i) => faq.question
-          //   <Accordian
-          //     question={faq.question}
-          //     answer={faq.answer}
-          //     key={i}
-          //     id={faq.id}
-          //     active={active}
-          //     setOpen={setOpen}
-          //   />
-        )}
+        {faqs.map((faq, i) => (
+          <Accordian
+            question={faq.question}
+            answer={faq.answer}
+            key={i}
+            id={faq.id}
+            active={active}
+            setOpen={setOpen}
+          />
+        ))}
       </div>
     </section>
+  );
+}
+
+function Accordian({ question, answer, id, active, setOpen }) {
+  return (
+    <div className="flex flex-col gap-4 py-4">
+      {/* question */}
+      <div className="flex justify-between cursor-pointer font-semibold text-xl md:text-2xl">
+        <span>{question}</span>
+        <div>
+          <Image
+            src={IconMinus}
+            alt="minus-icon"
+            className="h-6 w-auto"
+          ></Image>
+          <Image src={IconPlus} alt="plus-icon" className="h-6 w-auto"></Image>
+        </div>
+      </div>
+      {/* if accordion is open then show answer */}
+
+      <div>
+        <p className="text-base md:text-lg text-gray-500 pb-3">{answer}</p>
+      </div>
+    </div>
   );
 }
