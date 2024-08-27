@@ -1,11 +1,7 @@
 "use client";
-import IconMinus from "@/assets/images/icon-minus.svg";
-import IconPlus from "@/assets/images/icon-plus.svg";
-import IconStar from "@/assets/images/icon-star.svg";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-import Image from "next/image";
 import { useMemo, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useDebounceCallback } from "usehooks-ts";
@@ -89,7 +85,18 @@ function Faq({ handleToggle, isOpen, faqs, active, setOpen }) {
       {/* max width on mobile screens is 320px and 768px on larger screens */}
       <h1 className="flex gap-3 items-center justify-between">
         <div className="flex gap-3 items-center">
-          <Image src={IconStar} alt="star-icon" className="h-9 w-auto"></Image>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="40"
+            height="41"
+            fill="none"
+            viewBox="0 0 40 41"
+          >
+            <path
+              fill="#AD28EB"
+              d="M37.5 20.5a2.467 2.467 0 0 1-1.64 2.344l-9.913 3.604-3.603 9.911a2.5 2.5 0 0 1-4.688 0l-3.604-9.922-9.911-3.593a2.5 2.5 0 0 1 0-4.688l9.921-3.604 3.594-9.911a2.5 2.5 0 0 1 4.688 0l3.604 9.921 9.911 3.594A2.467 2.467 0 0 1 37.5 20.5Z"
+            />
+          </svg>
           <span className="font-bold text-4xl">FAQs</span>
         </div>
         <div onClick={handleToggle} className="flex justify-end text-base">
@@ -99,17 +106,31 @@ function Faq({ handleToggle, isOpen, faqs, active, setOpen }) {
             </span>
             <div>
               {isOpen ? (
-                <Image
-                  src={IconMinus}
-                  alt="minus-icon"
-                  className="h-6 w-auto"
-                ></Image>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  fill="none"
+                  viewBox="0 0 30 31"
+                >
+                  <path
+                    fill="#301534"
+                    d="M15 3.313A12.187 12.187 0 1 0 27.188 15.5 12.2 12.2 0 0 0 15 3.312Zm4.688 13.124h-9.375a.938.938 0 0 1 0-1.875h9.374a.938.938 0 0 1 0 1.876Z"
+                  />
+                </svg>
               ) : (
-                <Image
-                  src={IconPlus}
-                  alt="plus-icon"
-                  className="h-6 w-auto"
-                ></Image>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  fill="none"
+                  viewBox="0 0 30 31"
+                >
+                  <path
+                    fill="#AD28EB"
+                    d="M15 3.313A12.187 12.187 0 1 0 27.188 15.5 12.203 12.203 0 0 0 15 3.312Zm4.688 13.124h-3.75v3.75a.938.938 0 0 1-1.876 0v-3.75h-3.75a.938.938 0 0 1 0-1.875h3.75v-3.75a.938.938 0 0 1 1.876 0v3.75h3.75a.938.938 0 0 1 0 1.876Z"
+                  />
+                </svg>
               )}
             </div>
           </button>
@@ -153,17 +174,31 @@ function Accordian({ question, answer, id, active, setOpen }) {
         <span>{question}</span>
         <div>
           {active[id] ? (
-            <Image
-              src={IconMinus}
-              alt="minus-icon"
-              className="h-6 w-auto"
-            ></Image>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              fill="none"
+              viewBox="0 0 30 31"
+            >
+              <path
+                fill="#301534"
+                d="M15 3.313A12.187 12.187 0 1 0 27.188 15.5 12.2 12.2 0 0 0 15 3.312Zm4.688 13.124h-9.375a.938.938 0 0 1 0-1.875h9.374a.938.938 0 0 1 0 1.876Z"
+              />
+            </svg>
           ) : (
-            <Image
-              src={IconPlus}
-              alt="plus-icon"
-              className="h-6 w-auto"
-            ></Image>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              fill="none"
+              viewBox="0 0 30 31"
+            >
+              <path
+                fill="#AD28EB"
+                d="M15 3.313A12.187 12.187 0 1 0 27.188 15.5 12.203 12.203 0 0 0 15 3.312Zm4.688 13.124h-3.75v3.75a.938.938 0 0 1-1.876 0v-3.75h-3.75a.938.938 0 0 1 0-1.875h3.75v-3.75a.938.938 0 0 1 1.876 0v3.75h3.75a.938.938 0 0 1 0 1.876Z"
+              />
+            </svg>
           )}
         </div>
       </div>
