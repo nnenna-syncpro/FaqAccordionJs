@@ -3,6 +3,8 @@ import IconMinus from "@/assets/images/icon-minus.svg";
 import IconPlus from "@/assets/images/icon-plus.svg";
 import IconStar from "@/assets/images/icon-star.svg";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 import { useState } from "react";
 
@@ -31,6 +33,7 @@ export default function Home() {
 
   return (
     <main className="min-h-screen relative p-4 pb-10 bg-purple-600">
+      <Search />
       <Faq
         handleToggle={toggleOpen}
         isOpen={isSomeOpen}
@@ -153,5 +156,24 @@ function Accordian({ question, answer, id, active, setOpen }) {
         </div>
       )}
     </div>
+  );
+}
+
+function Search() {
+  return (
+    <section className="relative bg-white mx-auto max-w-sm sm:max-w-4xl rounded-xl mt-10 p-3">
+      <input
+        className="text-base md:text-lg text-gray-500 focus:outline-none cursor-pointer w-full"
+        type="search"
+        required
+        placeholder="Search..."
+      ></input>
+      <button
+        type="submit"
+        className="absolute right-1 top-1/2 -translate-y-1/2 p-3 rounded-full"
+      >
+        <FontAwesomeIcon icon={faMagnifyingGlass} className="text-gray-500" />
+      </button>
+    </section>
   );
 }
