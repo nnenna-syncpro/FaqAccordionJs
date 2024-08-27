@@ -6,11 +6,28 @@ import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useDebounceCallback } from "usehooks-ts";
 
 export default function Home() {
+  //use state to manage all faqs
+  const [faqList] = useState(faqs);
+  //handle search term using search params
+  const searchParams = useSearchParams();
+  const searchQuery = searchParams.get("search") ?? "";
+
+  //filter FAQs list using search term. But only when faqs or search term changes
+  const filteredFaqList = useMemo(() => {
+    return faqList.filter((faq) => {
+      if (searchQuery !== null) {
+        return faq.question.toLowerCase().includes(searchQuery.toLowerCase());
+      } else {
+        return faqList;
+      }
+    });
+  }, [faqList, searchQuery]);
+
   //create state for each accordion item and expand/collapse all
   const [isOpen, setOpen] = useState([
     false,
@@ -39,7 +56,7 @@ export default function Home() {
       <Faq
         handleToggle={toggleOpen}
         isOpen={isSomeOpen}
-        faqs={faqs}
+        faqs={filteredFaqList}
         active={isOpen}
         setOpen={setOpen}
       />
