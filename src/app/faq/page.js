@@ -1,12 +1,43 @@
+"use client";
 import IconMinus from "@/assets/images/icon-minus.svg";
 import IconPlus from "@/assets/images/icon-plus.svg";
 import IconStar from "@/assets/images/icon-star.svg";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 import Image from "next/image";
+import { useState } from "react";
 
 export default function Home() {
+  //create state for each accordion item and expand/collapse all
+  const [isOpen, setOpen] = useState([
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+  ]);
+
+  //check if any state changes to true
+  const isSomeOpen = isOpen.some((item) => item);
+
+  //handle toggle for all states including expand/collapse all
+  const toggleOpen = () => {
+    //if any state is true change it to false and vice versa
+    isSomeOpen
+      ? setOpen([false, false, false, false, false, false, false])
+      : setOpen([true, true, true, true, true, true, true]);
+  };
+
   return (
     <main className="min-h-screen relative p-4 pb-10 bg-purple-600">
-      <Faq faqs={faqs} />
+      <Faq
+        handleToggle={toggleOpen}
+        isOpen={isSomeOpen}
+        faqs={faqs}
+        active={isOpen}
+        setOpen={setOpen}
+      />
     </main>
   );
 }
@@ -79,25 +110,48 @@ function Faq({ handleToggle, isOpen, faqs, active, setOpen }) {
 }
 
 function Accordian({ question, answer, id, active, setOpen }) {
+  const toggleAccordionOpen = () => {
+    //keep a copy of the isOpen array in state
+    let isActive = [...active];
+    //change the state of one item
+    isActive[id] = !isActive[id];
+    //set the new state
+    setOpen(isActive);
+  };
+
+  const [animationParent] = useAutoAnimate();
+
   return (
-    <div className="flex flex-col gap-4 py-4">
+    <div ref={animationParent} className="flex flex-col gap-4 py-4">
       {/* question */}
-      <div className="flex justify-between cursor-pointer font-semibold text-xl md:text-2xl">
+      <div
+        onClick={toggleAccordionOpen}
+        className="flex justify-between cursor-pointer font-semibold text-xl md:text-2xl"
+      >
         <span>{question}</span>
         <div>
-          <Image
-            src={IconMinus}
-            alt="minus-icon"
-            className="h-6 w-auto"
-          ></Image>
-          <Image src={IconPlus} alt="plus-icon" className="h-6 w-auto"></Image>
+          {active[id] ? (
+            <Image
+              src={IconMinus}
+              alt="minus-icon"
+              className="h-6 w-auto"
+            ></Image>
+          ) : (
+            <Image
+              src={IconPlus}
+              alt="plus-icon"
+              className="h-6 w-auto"
+            ></Image>
+          )}
         </div>
       </div>
       {/* if accordion is open then show answer */}
 
-      <div>
-        <p className="text-base md:text-lg text-gray-500 pb-3">{answer}</p>
-      </div>
+      {active[id] && (
+        <div>
+          <p className="text-base md:text-lg text-gray-500 pb-3">{answer}</p>
+        </div>
+      )}
     </div>
   );
 }
