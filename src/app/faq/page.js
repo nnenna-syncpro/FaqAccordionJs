@@ -7,6 +7,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 import { useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useDebounceCallback } from "usehooks-ts";
 
 export default function Home() {
   //create state for each accordion item and expand/collapse all
@@ -160,6 +162,32 @@ function Accordian({ question, answer, id, active, setOpen }) {
 }
 
 function Search() {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  //keep input value after refresh
+  const searchTerm = searchParams.get("search") ?? "";
+
+  const searchHandler = (value) => {
+    console.log(value);
+
+    //create a search param that you can modify
+    const query = new URLSearchParams(searchParams);
+
+    //if theres no search value remove ?search= from url and vice versa
+    if (value.trim() === "") {
+      query.delete("search");
+    } else {
+      query.set("search", value);
+    }
+
+    //write the query string /?search=value to url
+    router.push(`${pathname}?${query.toString()}`);
+  };
+
+  const debounce = useDebounceCallback(searchHandler, 500);
+
   return (
     <section className="relative bg-white mx-auto max-w-sm sm:max-w-4xl rounded-xl mt-10 p-3">
       <input
@@ -167,6 +195,8 @@ function Search() {
         type="search"
         required
         placeholder="Search..."
+        onChange={(e) => debounce(e.target.value)}
+        defaultValue={searchTerm}
       ></input>
       <button
         type="submit"
